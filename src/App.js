@@ -1,14 +1,41 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import {
+	subscribeToApi,
+	unsubscribeFromApi,
+} from './features/books/bookSlice';
+
 import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { BookTable } from './features/books/BookTable';
 import './App.css';
 
+
 function App() {
+	const dispatch = useDispatch();
+	const orderChannel = useSelector(state => state.bookData.channel)
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
+				<button
+          aria-label="Decrement value"
+					onClick={() => dispatch(subscribeToApi())}
+					disabled={!!orderChannel}
+        >
+          Subscribe
+        </button>
+
+				<button
+          aria-label="Decrement value"
+					onClick={() => dispatch(unsubscribeFromApi())}
+					disabled={!orderChannel}
+        >
+          Unsubscribe
+        </button>
+				<BookTable />
+
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
